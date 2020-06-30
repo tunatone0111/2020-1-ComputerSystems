@@ -1,0 +1,29 @@
+#ifndef MYHEAD
+#include <stddef.h>
+#include <stdio.h>
+#define MYHEAD
+#define HASHLEN 64*1024
+#define NUM_THREADS 4
+#define WORDSIZE 8
+#define BUFF_SIZE 256
+
+typedef unsigned int pointer;
+
+typedef struct _word{
+    int count;
+    struct _word *next;
+    char val[];
+}word_t;
+
+void Parser(word_t*[], FILE*);
+size_t HashFunc(char*);
+void TableTraverse(word_t*[]);
+word_t* IsInTab(word_t*[], char*);
+void WordCount(word_t*[], char*);
+void WordAdd(word_t*[], char*);
+
+void HeapInitialization();
+void* MyMalloc(size_t);
+void MyFree(void*);
+
+#endif
