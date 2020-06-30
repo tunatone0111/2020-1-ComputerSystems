@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 #include "myheader.h"
 
 int IsCharacter(char x){
@@ -11,14 +12,19 @@ int IsCharacter(char x){
     }else return 0;
 };
 
-void Parser(word_t* table[], FILE* fp){
+void Parser(void* args){
+    word_t** table = ((args_t*)args)->table;
+    FILE* fp = ((args_t*)args)->fp;
+    int startpoint = ((args_t*)args)->startpoint;
+    int endpoint = ((args_t*)args)->endpoint;
+
     char buff[BUFF_SIZE];
     char word_buff[BUFF_SIZE];
     int i, j, k, string_end;
 
-    for(i = 0; feof(fp) == 0; i++){
+    fseek(fp, startpoint, SEEK_SET);
+    while(ftell(fp) < endpoint){
         fgets(buff, BUFF_SIZE, fp);
-        if(i%1000000 == 0) printf("%dM done\n", i/1000000);
         j = 0;
         k = 0;
         string_end = 0;
@@ -45,4 +51,5 @@ void Parser(word_t* table[], FILE* fp){
         }
 
     }
+    pthread_exit(0);
 }

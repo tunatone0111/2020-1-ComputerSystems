@@ -3,7 +3,7 @@
 #include <stdio.h>
 #define MYHEAD
 #define HASHLEN 64*1024
-#define NUM_THREADS 4
+#define NUM_THREADS 1
 #define WORDSIZE 8
 #define BUFF_SIZE 256
 
@@ -15,7 +15,14 @@ typedef struct _word{
     char val[];
 }word_t;
 
-void Parser(word_t*[], FILE*);
+typedef struct _arguments{
+    word_t* *table;
+    FILE* fp;
+    int startpoint;
+    int endpoint;
+}args_t;
+
+void Parser(void*);
 size_t HashFunc(char*);
 void TableTraverse(word_t*[]);
 word_t* IsInTab(word_t*[], char*);

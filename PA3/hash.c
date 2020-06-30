@@ -25,7 +25,6 @@ word_t* IsInTab(word_t* head[], char* x){
 
 void TableTraverse(word_t* head[]){
     printf("traverse\n");
-    getchar();
 
     word_t *temp;
     for(int i = 0; i < HASHLEN; i++){
