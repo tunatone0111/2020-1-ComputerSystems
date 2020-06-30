@@ -3,7 +3,7 @@
 #include <stdio.h>
 #define MYHEAD
 #define HASHLEN 64*1024
-#define NUM_THREADS 1
+#define NUM_THREADS 4
 #define WORDSIZE 8
 #define BUFF_SIZE 256
 

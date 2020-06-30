@@ -24,13 +24,13 @@ word_t* IsInTab(word_t* head[], char* x){
 }
 
 void TableTraverse(word_t* head[]){
-    printf("traverse\n");
+    // printf("traverse\n");
 
     word_t *temp;
     for(int i = 0; i < HASHLEN; i++){
         temp = head[i];
         while(temp != NULL){
-            printf("Hash[%4d] | %2d of %s\n", i, temp->count, temp->val);
+            printf("%s,%d\n", temp->val, temp->count);
             temp = temp->next;
         }
     }

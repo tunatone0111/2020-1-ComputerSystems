@@ -5,22 +5,22 @@
 #include <semaphore.h>
 #include <pthread.h>
 
-extern sem_t semid[HASHLEN];
+extern pthread_mutex_t mutex[HASHLEN+1];
 
 void WordCount(word_t* table[], char* x){
     word_t *temp;
     int hash_val = HashFunc(x);
-    sem_wait(semid+hash_val);
+    pthread_mutex_lock(mutex+hash_val);
     if((temp = IsInTab(table, x))){
         temp->count = temp->count+1;
     }else WordAdd(table, x);
-    sem_post(semid+hash_val);
+    pthread_mutex_unlock(mutex+hash_val);
 }
 
 void WordAdd(word_t* table[], char* x){
-    sem_wait(semid+HASHLEN);
+    pthread_mutex_lock(mutex+HASHLEN);
     word_t *newnode = (word_t*)MyMalloc(sizeof(word_t) + strlen(x) + 1);
-    sem_post(semid+HASHLEN);
+    pthread_mutex_unlock(mutex+HASHLEN);
     newnode->count = 1;
     newnode->next = NULL;
     strcpy(newnode->val, x);

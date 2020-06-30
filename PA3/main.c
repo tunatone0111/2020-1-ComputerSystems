@@ -11,7 +11,8 @@
 #include "mymacros.h"
 
 char *heap_head, *pbrk, *free_list[3];
-sem_t semid[HASHLEN+1];
+pthread_mutex_t mutex[HASHLEN+1];
+pthread_mutex_t mutex_init = PTHREAD_MUTEX_INITIALIZER;
 
 int main(int argc,char* argv[]){
     char* file;
@@ -20,7 +21,7 @@ int main(int argc,char* argv[]){
     char buffer[BUFF_SIZE];
 
     for(int i = 0; i<=HASHLEN; i++){
-        sem_init(semid+i, 0, 1);
+        memcpy(mutex+i, &mutex_init, sizeof(pthread_mutex_t));
     }
     
     start = clock();
@@ -39,7 +40,7 @@ int main(int argc,char* argv[]){
         HeapInitialization();
 
         file = argv[1];
-        printf("Targeted file: %s\n", file);
+        // printf("Targeted file: %s\n", file);
 
         FILE *fp = fopen(file, "r");
 
@@ -68,7 +69,7 @@ int main(int argc,char* argv[]){
         arg[NUM_THREADS-1].endpoint = file_size;
 
         for(int i = 0; i < NUM_THREADS; i++){
-            printf("T%d | start: %d, endpoint: %d\n", i, arg[i].startpoint, arg[i].endpoint);
+            // printf("T%d | start: %d, endpoint: %d\n", i, arg[i].startpoint, arg[i].endpoint);
             pthread_create(&workers[i], NULL, (void*)&Parser, (void*)(arg+i));
         }
 
@@ -79,7 +80,7 @@ int main(int argc,char* argv[]){
     }
 
     end = clock();
-    printf("evaulated time: %f\n", (double)(end-start));
+    // printf("evaulated time: %f\n", (double)(end-start));
 
     // traverse
     TableTraverse(word_table);

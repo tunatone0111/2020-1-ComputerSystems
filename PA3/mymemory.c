@@ -25,9 +25,9 @@ void HeapInitialization(){
 
     pbrk = (char*)sbrk(0);
 
-    printf("done. memory size: %ld\n", pbrk - heap_head);
-    printf("heap head: %p\n", heap_head);
-    printf("%p\n%p\n", free_list[0], free_list[1]);
+    // printf("done. memory size: %ld\n", pbrk - heap_head);
+    // printf("heap head: %p\n", heap_head);
+    // printf("%p\n%p\n", free_list[0], free_list[1]);
 }
 
 void* MyMalloc(size_t size){
